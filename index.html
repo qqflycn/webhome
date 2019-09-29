@@ -1,5 +1,56 @@
+<!DOCTYPE html>
 <html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+
+</head>
 <body>
-My home page
+	<div class="mui-content">
+		<form class="mui-input-group">
+			<div class="mui-input-row">
+				<label>用户名</label>
+				<input id="js-name" type="text" class="mui-input-clear" placeholder="请输入用户名">
+			</div>
+			<div class="mui-button-row">
+				<button type="button" class="mui-btn mui-btn-primary js-query" >确认</button>
+				<button type="button" class="mui-btn mui-btn-danger" >取消</button>
+			</div>
+		</form>
+		<div id="js-content" class="js-content">
+			
+		</div>
+		
+	</div>
 </body>
+<script type="text/javascript" charset="utf-8">
+	mui.init();
+	mui(".mui-input-group").on("click", ".js-query",  function(){
+		//console.log("test");
+		mui.ajax('http://cloud.bmob.cn/8066056746109aa2/Test',{
+			data:{
+				name: document.getElementById("js-name").value
+			},
+			dataType:'json',//服务器返回json格式数据
+			type:'get',//HTTP请求类型
+			timeout:10000,//超时时间设置为10秒；	              
+			success:function(data){
+				if (data.results && data.results.length > 0) {
+					document.getElementById("js-content").innerText = "有效";
+				}else{
+					document.getElementById("js-content").innerText = "无效";
+				}
+				
+				console.log(data);
+			},
+			error:function(xhr,type,errorThrown){
+				//异常处理；
+				console.log(type);
+			}
+		});
+	});
+</script>
 </html>
